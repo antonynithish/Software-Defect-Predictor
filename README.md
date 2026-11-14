@@ -9,6 +9,7 @@ Software defects can increase maintenance costs, affect reliability and delay so
 This project uses software metrics to estimate the likelihood that a software module belongs to the defective class.
 
 The application provides:
+
 - Software defect prediction using a trained Random Forest classifier.
 - Defect probability and classification threshold.
 - Individual prediction explanations using SHAP.
@@ -32,7 +33,29 @@ The application provides:
 6. Explain individual predictions using SHAP.
 7. Develop a web application for interactive defect prediction.
 
-## 3. Dataset
+## 3. Application Screenshots
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Defect Prediction
+
+![Defect Prediction](docs/screenshots/prediction.png)
+
+### Prediction Result
+
+![Prediction Result](docs/screenshots/prediction-result.png)
+
+### SHAP Explainability
+
+![SHAP Explanation](docs/screenshots/shap-explanation.png)
+
+### Model Performance
+
+![Model Performance](docs/screenshots/model-performance.png)
+
+## 4. Dataset
 
 The project uses the KC1 software defect dataset.
 
@@ -49,6 +72,7 @@ The KC1 dataset contains software module metrics and a binary defect label.
 The features describe software size, complexity, operators, operands and related code characteristics.
 
 Examples include:
+
 - `loc` – Lines of code
 - `v(g)` – Cyclomatic complexity
 - `ev(g)` – Essential complexity
@@ -56,13 +80,14 @@ Examples include:
 - `total_Opnd` – Total operands
 - `branchCount` – Branch count
 
-## 4. Methodology
+## 5. Methodology
 
-### 4.1 Data preprocessing
+### 5.1 Data Preprocessing
 
 The original ARFF dataset is loaded and converted into a structured tabular format.
 
 The preprocessing procedure includes:
+
 - Decoding categorical values.
 - Converting defect labels into binary values.
 - Separating features and target.
@@ -72,7 +97,7 @@ The preprocessing procedure includes:
 
 Duplicate feature rows are not automatically removed because different software modules can have identical metric values.
 
-### 4.2 Data splitting
+### 5.2 Data Splitting
 
 Two evaluation strategies are implemented.
 
@@ -88,7 +113,7 @@ Identical feature combinations are assigned the same group identifier. Stratifie
 
 The grouped split is particularly important because duplicate feature vectors can otherwise make evaluation overly optimistic.
 
-### 4.3 Machine learning algorithms
+### 5.3 Machine Learning Algorithms
 
 Four classification algorithms are compared:
 
@@ -101,17 +126,18 @@ The training pipeline includes median imputation. Standard scaling is applied to
 
 Class weighting or sample weighting is used where configured to account for class imbalance.
 
-### 4.4 Hyperparameter tuning
+### 5.4 Hyperparameter Tuning
 
 RandomizedSearchCV is used to explore model hyperparameters.
 
 The tuning configuration includes:
+
 - Three-fold StratifiedGroupKFold cross-validation.
 - Eight randomly sampled configurations per model.
 - Average Precision (PR-AUC) as the model selection metric.
 - Fixed random states for reproducibility.
 
-### 4.5 Classification threshold selection
+### 5.5 Classification Threshold Selection
 
 The default classification threshold of 0.50 is not assumed to be optimal.
 
@@ -119,7 +145,7 @@ Out-of-fold training probabilities are used to evaluate thresholds from 0.05 to 
 
 The selected threshold for the deployed grouped Random Forest model is **0.47**.
 
-### 4.6 Model explainability
+### 5.6 Model Explainability
 
 SHAP (SHapley Additive exPlanations) is used to explain individual predictions.
 
@@ -129,7 +155,7 @@ Global SHAP feature importance is also used to understand which features have gr
 
 SHAP explanations describe model behaviour; they do not establish causal relationships.
 
-## 5. Model Evaluation
+## 6. Model Evaluation
 
 The models are evaluated using:
 
@@ -143,7 +169,7 @@ The models are evaluated using:
 | ROC-AUC | Ranking performance across classification thresholds |
 | PR-AUC | Precision-recall performance, useful for imbalanced data |
 
-### Selected grouped Random Forest results
+### Selected Grouped Random Forest Results
 
 | Metric | Result |
 |---|---:|
@@ -158,27 +184,33 @@ The models are evaluated using:
 
 These are the observed results for the selected grouped Random Forest experiment on its held-out test split. They should not be interpreted as a guarantee of performance on other datasets or software projects.
 
-## 6. Application Features
+## 7. Application Features
 
 ### Defect Prediction
+
 Users enter software metrics and receive a predicted class, defect probability and classification threshold.
 
 ### Individual SHAP Explanation
+
 Displays the baseline probability and feature-level contributions for an individual prediction.
 
 ### Prediction History
+
 Stores previous predictions and their associated metrics in a local SQLite database.
 
 ### Model Insights
+
 Displays global SHAP feature importance.
 
 ### Model Performance
+
 Displays model comparison results and evaluation figures, including:
+
 - Confusion matrix
 - ROC curve
 - Precision-recall curve
 
-## 7. Technology Stack
+## 8. Technology Stack
 
 | Area | Technology |
 |---|---|
@@ -192,7 +224,7 @@ Displays model comparison results and evaluation figures, including:
 | Frontend | HTML, CSS, JavaScript |
 | Visualization | Matplotlib |
 
-## 8. Project Structure
+## 9. Project Structure
 
 ```text
 Software-Defect-Predictor/
@@ -226,14 +258,16 @@ Software-Defect-Predictor/
 │   └── generated/
 │
 ├── docs/
-├── notebooks/
-├── database/
+│   ├── ARCHITECTURE.md
+│   ├── MODEL_METHODOLOGY.md
+│   └── screenshots/
+│
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-## 9. Installation and Execution
+## 10. Installation and Execution
 
 ### Requirements
 
@@ -241,14 +275,14 @@ Software-Defect-Predictor/
 - pip
 - Git (for cloning the repository)
 
-### Step 1: Clone the repository
+### Step 1: Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/antonynithish/Software-Defect-Predictor.git
 cd Software-Defect-Predictor
 ```
 
-### Step 2: Create a virtual environment
+### Step 2: Create a Virtual Environment
 
 Windows PowerShell:
 
@@ -257,13 +291,13 @@ python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-### Step 3: Install dependencies
+### Step 3: Install Dependencies
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-### Step 4: Start the application
+### Step 4: Start the Application
 
 ```powershell
 python -m app.app
@@ -275,7 +309,7 @@ Open the following address in a browser:
 http://127.0.0.1:5000
 ```
 
-### Step 5: Run tests
+### Step 5: Run Tests
 
 ```powershell
 python tests/run_all_tests.py
@@ -283,7 +317,7 @@ python tests/run_all_tests.py
 
 The application requires the committed trained model, grouped training CSV and generated analytics files. These should be present in the repository at the documented paths.
 
-## 10. Limitations
+## 11. Limitations
 
 - The model is trained using the KC1 dataset and may not generalize to other software projects.
 - Software metrics alone cannot capture every factor that contributes to defects.
@@ -292,7 +326,7 @@ The application requires the committed trained model, grouped training CSV and g
 - SHAP values explain model predictions, not the underlying causes of software defects.
 - The application is an experimental decision-support prototype, not a replacement for software testing or code review.
 
-## 11. Future Work
+## 12. Future Work
 
 - Validate the approach on additional software defect datasets.
 - Evaluate generalization across projects and datasets.
@@ -301,6 +335,6 @@ The application requires the committed trained model, grouped training CSV and g
 - Study calibration of predicted probabilities.
 - Improve the usability of the prediction interface.
 
-## 12. Disclaimer
+## 13. Disclaimer
 
 This project is developed for academic and educational purposes. Predictions should be treated as estimates to support software quality analysis, not as definitive evidence that a software module contains defects.
