@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Machine learning-powered software defect prediction and analytics dashboard.">
+
+    <title>DefectAI | Software Quality Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">D</div>
+            <div>
+                <h2>Defect<span>AI</span></h2>
+                <p>QUALITY INTELLIGENCE</p>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="sidebar-label">WORKSPACE</span>
+
+            <button class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">◫</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" data-page="predict">
+                <span class="nav-icon">⌘</span>
+                Defect Prediction
+            </button>
+
+            <button class="nav-item" data-page="history">
+                <span class="nav-icon">◷</span>
+                Prediction History
+            </button>
+
+            <button class="nav-item" data-page="insights">
+                <span class="nav-icon">✧</span>
+                Model Insights
+            </button>
+            <button class="nav-item" data-page="performance">
+    <span class="nav-icon">▥</span>
+    Model Performance
+</button>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="model-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Model Status</strong>
+                    <p id="sidebar-status">Checking connection...</p>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <span>DEFECTAI v1.0</span>
+                <span>ML POWERED</span>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menu-toggle"
+                        aria-label="Toggle sidebar">☰</button>
+
+                <div>
+                    <p class="breadcrumb">WORKSPACE / <span id="breadcrumb-page">OVERVIEW</span></p>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="connection-status">
+                    <span class="status-dot"></span>
+                    <span id="connection-text">Connecting...</span>
+                </div>
+
+                <div class="avatar">AI</div>
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+        <section class="page active" id="page-dashboard">
+
+            <div class="welcome-section">
+                <div>
+                    <span class="eyebrow">SOFTWARE QUALITY ANALYTICS</span>
+                    <h2>Welcome to <span>DefectAI</span></h2>
+                    <p>Monitor software quality and analyze defect predictions using machine learning.</p>
+                </div>
+
+                <button class="primary-button" data-navigate="predict">
+                    + New Prediction
+                </button>
+            </div>
+
+
+            <!-- STATISTICS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Total Predictions</span>
+                        <span class="stat-icon purple">◈</span>
+                    </div>
+                    <h2 id="total-predictions">0</h2>
+                    <p>Analyses performed</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Defective Modules</span>
+                        <span class="stat-icon red">⌁</span>
+                    </div>
+                    <h2 id="defective-count">0</h2>
+                    <p>Predicted defective</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Non-defective Modules</span>
+                        <span class="stat-icon green">✓</span>
+                    </div>
+                    <h2 id="clean-count">0</h2>
+                    <p>Predicted non-defective</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Average Defect Probability</span>
+                        <span class="stat-icon blue">%</span>
+                    </div>
+                    <h2 id="average-probability">0%</h2>
+                    <p>Across saved predictions</p>
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD CONTENT -->
+            <div class="dashboard-grid">
+
+                <div class="panel recent-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Recent Predictions</h3>
+                            <p>Your latest software quality analyses</p>
+                        </div>
+
+                        <button class="text-button" data-navigate="history">
+                            View all →
+                        </button>
+                    </div>
+
+                    <div id="recent-predictions" class="recent-list">
+                        <div class="empty-state">
+                            No predictions available yet.
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel model-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Model Information</h3>
+                            <p>Active prediction engine</p>
+                        </div>
+
+                        <span class="model-badge">ACTIVE</span>
+                    </div>
+
+                    <div class="model-name">
+                        <div class="model-symbol">RF</div>
+                        <div>
+                            <h4>Random Forest</h4>
+                            <p>Supervised Machine Learning</p>
+                        </div>
+                    </div>
+
+                    <div class="model-details">
+                        <div>
+                            <span>Training Dataset</span>
+                            <strong>NASA KC1</strong>
+                        </div>
+
+                        <div>
+                            <span>Input Features</span>
+                            <strong id="model-feature-count">21</strong>
+                        </div>
+
+                        <div>
+                            <span>Decision Threshold</span>
+                            <strong id="model-threshold">0.47</strong>
+                        </div>
+
+                        <div>
+                            <span>Evaluation Strategy</span>
+                            <strong>Grouped Split</strong>
+                        </div>
+                    </div>
+
+                    <div class="model-note">
+                        Predictions are based on software metrics learned from the NASA KC1 dataset.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE INSIGHTS -->
+            <div class="panel feature-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Top Model Features</h3>
+                        <p>Global SHAP importance from model evaluation</p>
+                    </div>
+
+                    <button class="text-button" data-navigate="insights">
+                        Explore insights →
+                    </button>
+                </div>
+
+                <div id="dashboard-feature-list"></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= PREDICTION PAGE ================= -->
+        <section class="page" id="page-predict">
+
+            <div class="section-intro">
+                <span class="eyebrow">MACHINE LEARNING ANALYSIS</span>
+                <h2>Software Defect Prediction</h2>
+                <p>Enter software metrics to estimate the probability of a defect.</p>
+            </div>
+
+
+            <div class="panel form-panel">
+
+                <div class="form-heading">
+                    <div>
+                        <h3>Software Metrics</h3>
+                        <p>Provide all 21 KC1 software metric values.</p>
+                    </div>
+
+                    <span class="required-label">21 INPUT FEATURES</span>
+                </div>
+
+
+                <form id="prediction-form">
+
+                    <div id="metrics-grid" class="metrics-grid"></div>
+
+                    <div class="form-actions">
+
+                        <button type="button" class="secondary-button"
+                                id="clear-form">
+                            Clear Form
+                        </button>
+
+                        <button type="submit" class="primary-button"
+                                id="predict-button">
+                            <span>Analyze Software</span>
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- PREDICTION RESULT -->
+            <div id="prediction-result" class="result-panel hidden">
+
+                <div class="result-heading">
+                    <div>
+                        <span class="eyebrow">ANALYSIS COMPLETE</span>
+                        <h2>Prediction Results</h2>
+                    </div>
+
+                    <span id="result-badge" class="result-badge">RESULT</span>
+                </div>
+
+                <div class="result-grid">
+
+                    <div class="result-main">
+                        <p class="result-label">Predicted Classification</p>
+                        <h2 id="result-prediction">Defective</h2>
+                        <p id="result-description">
+                            Model prediction based on supplied software metrics.
+                        </p>
+                    </div>
+
+                    <div class="probability-card">
+
+                        <div class="probability-heading">
+                            <span>Defect Probability</span>
+                            <strong id="result-percentage">0%</strong>
+                        </div>
+
+                        <div class="probability-track">
+                            <div class="probability-fill" id="probability-fill"></div>
+                        </div>
+
+                        <div class="probability-footer">
+                            <span>0%</span>
+                            <span>100%</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="result-details">
+
+                    <div>
+                        <span>Risk Category</span>
+                        <strong id="result-risk">Medium</strong>
+                    </div>
+
+                    <div>
+                        <span>Classification Threshold</span>
+                        <strong id="result-threshold">0.47</strong>
+                    </div>
+
+                    <div>
+                        <span>Prediction ID</span>
+                        <strong id="result-id">#1</strong>
+                    </div>
+
+                </div>
+
+                <p class="result-disclaimer">
+                    This is a model-generated estimate based on the NASA KC1 training dataset.
+                    It should not be treated as a guarantee of actual software quality.
+                </p>
+                <div id="individual-explanation" class="individual-explanation hidden">
+
+    <div class="panel-header">
+        <div>
+            <h3>Why did the model make this prediction?</h3>
+            <p>Individual SHAP explanation for this software module</p>
+        </div>
+
+        <span class="model-badge">EXPLAINABLE AI</span>
+    </div>
+
+    <div class="shap-summary">
+        <div>
+            <span>Baseline probability</span>
+            <strong id="shap-base">--</strong>
+        </div>
+
+        <div>
+            <span>Predicted probability</span>
+            <strong id="shap-predicted">--</strong>
+        </div>
+    </div>
+
+    <h4 class="shap-subheading">Factors increasing defect probability</h4>
+    <div id="shap-positive" class="shap-list"></div>
+
+    <h4 class="shap-subheading">Factors decreasing defect probability</h4>
+    <div id="shap-negative" class="shap-list"></div>
+
+    <p class="result-disclaimer">
+        Positive SHAP values increase the model's defective-class probability;
+        negative values decrease it. These are model contributions, not
+        proof of real-world causation.
+    </p>
+
+</div>
+
+                <button class="secondary-button" data-navigate="history">
+                    View Prediction History →
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= HISTORY PAGE ================= -->
+        <section class="page" id="page-history">
+
+            <div class="section-intro">
+                <span class="eyebrow">DATABASE RECORDS</span>
+                <h2>Prediction History</h2>
+                <p>Review previously performed defect prediction analyses.</p>
+            </div>
+
+            <div class="panel history-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Saved Predictions</h3>
+                        <p>Stored locally using SQLite</p>
+                    </div>
+
+                    <button class="secondary-button" id="refresh-history">
+                        ↻ Refresh
+                    </button>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date & Time</th>
+                                <th>Prediction</th>
+                                <th>Probability</th>
+                                <th>Risk</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="5" class="empty-table">
+                                    No prediction history available.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= MODEL INSIGHTS PAGE ================= -->
+        <section class="page" id="page-insights">
+
+            <div class="section-intro">
+                <span class="eyebrow">EXPLAINABLE ARTIFICIAL INTELLIGENCE</span>
+                <h2>Model Insights</h2>
+                <p>Understand which software metrics influenced the trained model.</p>
+            </div>
+
+
+            <div class="insight-info">
+
+                <div class="insight-icon">✧</div>
+
+                <div>
+                    <h3>SHAP Explainability</h3>
+                    <p>
+                        SHAP (SHapley Additive exPlanations) measures how much
+                        each feature contributes to the model's predictions.
+                        These are global feature importance values calculated
+                        across the evaluation samples.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="panel feature-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Global Feature Importance</h3>
+                        <p>Mean absolute SHAP values — KC1 evaluation</p>
+                    </div>
+                </div>
+
+                <div id="insights-feature-list"></div>
+
+            </div>
+
+
+            <div class="panel explanation-panel">
+
+                <h3>Understanding the Metrics</h3>
+
+                <div class="explanation-grid">
+
+                    <div>
+                        <strong>LOC</strong>
+                        <p>Lines of code in a software module.</p>
+                    </div>
+
+                    <div>
+                        <strong>Operators and Operands</strong>
+                        <p>Metrics describing the operators and operands used in source code.</p>
+                    </div>
+
+                    <div>
+                        <strong>Volume</strong>
+                        <p>Halstead software volume metric.</p>
+                    </div>
+
+                    <div>
+                        <strong>Effort</strong>
+                        <p>Halstead effort metric.</p>
+                    </div>
+
+                </div>
+
+                <p class="result-disclaimer">
+                    Feature importance indicates model influence, not causation.
+                    These values explain overall model behavior and are not
+                    individual explanations for a particular prediction.
+                </p>
+
+            </div>
+
+        </section>
+        <!-- ================= MODEL PERFORMANCE ================= -->
+
+<section class="page" id="page-performance">
+
+    <div class="section-intro">
+        <span class="eyebrow">MODEL EVALUATION</span>
+        <h2>Model Performance</h2>
+        <p>
+            Explore actual evaluation results from the trained
+            software defect prediction models.
+        </p>
+    </div>
+
+    <div class="insight-info">
+        <div class="insight-icon">▥</div>
+
+        <div>
+            <h3>Experimental Evaluation</h3>
+            <p>
+                The following results are loaded from the model
+                comparison reports generated during training
+                and hyperparameter tuning.
+            </p>
+        </div>
+    </div>
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Model Comparison</h3>
+                <p>Actual saved model evaluation results</p>
+            </div>
+
+            <button class="secondary-button" id="refresh-analytics">
+                ↻ Refresh
+            </button>
+        </div>
+
+        <div id="model-comparison-container">
+            <div class="empty-state">
+                Loading model comparison...
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Evaluation Visualizations</h3>
+                <p>Generated during KC1 model evaluation</p>
+            </div>
+        </div>
+
+        <div id="evaluation-figures" class="evaluation-grid">
+            <div class="empty-state">
+                Loading evaluation figures...
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Evaluation Metric Guide</h3>
+                <p>Understanding the model performance measurements</p>
+            </div>
+        </div>
+
+        <div class="explanation-grid">
+
+            <div>
+                <strong>Accuracy</strong>
+                <p>Proportion of all predictions classified correctly.</p>
+            </div>
+
+            <div>
+                <strong>Precision</strong>
+                <p>Proportion of predicted defective modules that were actually defective.</p>
+            </div>
+
+            <div>
+                <strong>Recall</strong>
+                <p>Proportion of actual defective modules identified by the model.</p>
+            </div>
+
+            <div>
+                <strong>F1 Score</strong>
+                <p>Harmonic mean of precision and recall.</p>
+            </div>
+
+            <div>
+                <strong>ROC-AUC</strong>
+                <p>Measures ranking discrimination across classification thresholds.</p>
+            </div>
+
+            <div>
+                <strong>PR-AUC</strong>
+                <p>Summarizes the precision-recall trade-off, especially useful with imbalanced classes.</p>
+            </div>
+
+        </div>
+
+        <p class="result-disclaimer">
+            These metrics describe performance on the recorded evaluation
+            dataset. They do not guarantee performance on unrelated software projects.
+        </p>
+
+    </div>
+
+</section>
+
+
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <span>DefectAI © 2026</span>
+            <span>Automated Software Bug & Defect Predictor</span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST NOTIFICATIONS -->
+<div id="toast-container" class="toast-container"></div>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

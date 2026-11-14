@@ -5,28 +5,49 @@ __pycache__/
 venv/
 .env
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Machine learning models
-models/*.pkl
-models/*.joblib
-
-# Database
-database/*.db
-database/*.sqlite3
-
-# Dataset files
-data/raw/*
-data/processed/*
-
-# Generated reports
-reports/generated/
-
 # IDE
 .vscode/
 .idea/
 
-# OS
+# Operating system
 .DS_Store
 Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Models: include only the final application model
+models/*.joblib
+models/tuned/*.joblib
+!models/tuned/kc1_grouped_random_forest_tuned.joblib
+models/*.pkl
+models/tuned/*.pkl
+
+# Raw datasets: include only the KC1 source dataset
+data/raw/*
+!data/raw/mendeley/
+data/raw/mendeley/*
+!data/raw/mendeley/KC1.arff
+
+# Processed datasets needed for application, testing and reproduction
+data/processed/*
+!data/processed/kc1_train.csv
+!data/processed/kc1_test.csv
+!data/processed/kc1_grouped_train.csv
+!data/processed/kc1_grouped_test.csv
+
+# Generated reports: retain application analytics
+reports/generated/*
+!reports/generated/model_comparison.csv
+!reports/generated/tuned_model_comparison.csv
+!reports/generated/shap_feature_importance.csv
+!reports/generated/figures/
+reports/generated/figures/*
+!reports/generated/figures/confusion_matrix.png
+!reports/generated/figures/roc_curve.png
+!reports/generated/figures/precision_recall_curve.png

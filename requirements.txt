@@ -3,14 +3,7 @@ numpy
 pandas
 scipy
 scikit-learn
-imbalanced-learn
 matplotlib
-seaborn
-plotly
-flask
-flask-sqlalchemy
+Flask
 joblib
 shap
-GitPython
-python-dotenv
-pytest
