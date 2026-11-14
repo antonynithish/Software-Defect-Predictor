@@ -1,0 +1,32 @@
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Machine learning models
+models/*.pkl
+models/*.joblib
+
+# Database
+database/*.db
+database/*.sqlite3
+
+# Dataset files
+data/raw/*
+data/processed/*
+
+# Generated reports
+reports/generated/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
